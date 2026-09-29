@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>OmniHub - Productivity Suite</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- =====================================================================
+       TELA DE AUTENTICAÇÃO (Login / Cadastro / Esqueci a senha)
+       Visível apenas quando o usuário NÃO está logado.
+       ===================================================================== -->
+  <div class="auth-screen" id="authScreen">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo">
+          <div class="brand-icon" style="width:48px;height:48px;border-radius:var(--radius-xl);font-size:26px">
+            <i class="ph ph-bold ph-lightning"></i>
+          </div>
+        </div>
+        <h1 class="auth-brand-title">OmniHub</h1>
+        <p class="auth-brand-sub">Productivity Suite</p>
+      </div>
+
+      <div class="auth-error" id="authError"></div>
+
+      <!-- ===== FORM LOGIN ===== -->
+      <form class="auth-form" id="formLogin">
+        <div class="form-group">
+          <label for="loginEmail">E-mail</label>
+          <div class="input-with-icon">
+            <i class="ph ph-bold ph-envelope-simple"></i>
+            <input type="email" id="loginEmail" placeholder="seu@email.com" required autocomplete="email" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Senha</label>
+          <div class="input-with-icon" style="position: relative;">
+            <i class="ph ph-bold ph-lock-key"></i>
+            <input type="password" id="loginPassword" placeholder="Sua senha" required autocomplete="current-password" style="padding-right: 40px;" />
+            <button type="button" class="btn-toggle-password">
+              <i class="ph ph-bold ph-eye"></i>
+            </button>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary auth-submit" id="loginSubmitBtn">
+          <span class="btn-label">Entrar</span>
+          <span class="btn-spinner" style="display: none;"><i class="ph ph-bold ph-spinner"></i></span>
+        </button>
+
+        <div class="auth-links">
+          <button type="button" class="auth-link" id="btnGoToRegister">Criar conta</button>
+          <button type="button" class="auth-link" id="btnGoToForgot">Esqueceu a senha?</button>
+        </div>
+
+        <div class="auth-divider"><span>ou</span></div>
+
+        <button type="button" class="btn btn-google" id="btnGoogleLogin">
+          <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.9 33.4 29.4 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 8 3l5.7-5.7C34 6 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.2-2.7-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 15.5 18.8 12 24 12c3.1 0 5.8 1.2 8 3l5.7-5.7C34 6 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-1.9 13.4-5l-6.2-5.2C29.2 35.2 26.7 36 24 36c-5.4 0-9.9-3.6-11.3-8.5l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.2-2.7-.4-3.9z"/></svg>
+          <span>Entrar com Google</span>
+        </button>
+      </form>
+
+      <!-- ===== FORM CADASTRO ===== -->
+      <form class="auth-form" id="formRegister" style="display: none;">
+        <div class="form-group">
+          <label for="regName">Nome completo</label>
+          <div class="input-with-icon">
+            <i class="ph ph-bold ph-user"></i>
+            <input type="text" id="regName" placeholder="Seu nome" required autocomplete="name" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="regEmail">E-mail</label>
+          <div class="input-with-icon">
+            <i class="ph ph-bold ph-envelope-simple"></i>
+            <input type="email" id="regEmail" placeholder="seu@email.com" required autocomplete="email" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="regPassword">Senha</label>
+          <div class="input-with-icon" style="position: relative;">
+            <i class="ph ph-bold ph-lock-key"></i>
+            <input type="password" id="regPassword" placeholder="Mínimo 6 caracteres" required minlength="6" autocomplete="new-password" style="padding-right: 40px;" />
+            <button type="button" class="btn-toggle-password">
+              <i class="ph ph-bold ph-eye"></i>
+            </button>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary auth-submit" id="regSubmitBtn">
+          <span class="btn-label">Criar Conta</span>
+          <span class="btn-spinner" style="display: none;"><i class="ph ph-bold ph-spinner"></i></span>
+        </button>
+        <div class="auth-links" style="justify-content: center;">
+          <button type="button" class="auth-link" id="btnBackToLoginFromReg">Voltar para o Login</button>
+        </div>
+      </form>
+
+      <!-- ===== FORM RECUPERAR SENHA ===== -->
+      <form class="auth-form" id="formForgot" style="display: none;">
+        <p class="auth-form-intro">Informe o e-mail associado à sua conta. Enviaremos um link para redefinir sua senha.</p>
+        <div class="form-group">
+          <label for="forgotEmail">E-mail</label>
+          <div class="input-with-icon">
+            <i class="ph ph-bold ph-envelope-simple"></i>
+            <input type="email" id="forgotEmail" placeholder="seu@email.com" required autocomplete="email" />
+          </div>
+        </div>
+        
+        <div id="forgotFeedback" style="display:none; color: var(--secondary-sage); background: var(--secondary-light); padding: var(--space-sm); border-radius: var(--radius-md); font-size: 0.85rem; text-align: center; border: 1px solid var(--secondary-dim);"></div>
+
+        <button type="submit" class="btn btn-primary auth-submit" id="forgotSubmitBtn">
+          <span class="btn-label">Enviar e-mail de recuperação</span>
+          <span class="btn-spinner" style="display: none;"><i class="ph ph-bold ph-spinner"></i></span>
+        </button>
+        <div class="auth-links" style="justify-content: center;">
+          <button type="button" class="auth-link" id="btnBackToLoginFromForgot">Voltar para o Login</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       APLICAÇÃO PRINCIPAL (oculta enquanto não autenticado)
+       ===================================================================== -->
+  <div class="app-container" id="appContainer" hidden>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <div class="brand-icon"><i class="ph ph-bold ph-lightning"></i></div>
+          <div class="brand-text">
+            <h1 class="brand-title">OmniHub</h1>
+            <span class="brand-tag">Productivity Suite</span>
+          </div>
+        </div>
+        <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Fechar menu">
+          <i class="ph ph-bold ph-x"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-link active" data-view="dashboard">
+          <i class="ph ph-bold ph-squares-four"></i><span>Dashboard</span>
+        </button>
+        <button class="nav-link" data-view="tasks">
+          <i class="ph ph-bold ph-check-square-offset"></i><span>Tarefas</span>
+          <span class="nav-badge" id="tasksBadge">0</span>
+        </button>
+        <button class="nav-link" data-view="shopping">
+          <i class="ph ph-bold ph-shopping-bag"></i><span>Lista de Compras</span>
+          <span class="nav-badge" id="shoppingBadge">0</span>
+        </button>
+        <button class="nav-link" data-view="wishlist">
+          <i class="ph ph-bold ph-heart"></i><span>Lista de Desejos</span>
+          <span class="nav-badge" id="wishlistBadge">0</span>
+        </button>
+        <button class="nav-link" data-view="reminders">
+          <i class="ph ph-bold ph-bell-ringing"></i><span>Lembretes &amp; Alarmes</span>
+          <span class="nav-badge" id="remindersBadge">0</span>
+        </button>
+      </nav>
+
+      <!-- Perfil do usuário + Logout -->
+      <div class="sidebar-user">
+        <div class="user-avatar" id="userAvatar">
+          <i class="ph ph-bold ph-user"></i>
+        </div>
+        <div class="user-info">
+          <span class="user-name" id="userName">Usuário</span>
+          <span class="user-email" id="userEmail">user@email.com</span>
+        </div>
+        <button class="btn-logout" id="btnLogout" title="Sair">
+          <i class="ph ph-bold ph-sign-out"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="connection-status">
+          <span class="status-indicator-dot" id="statusIndicatorDot"></span>
+          <div class="status-text-wrapper">
+            <span class="status-label" id="statusLabel">Conectando...</span>
+            <span class="status-sub" id="statusSub">Verificando Firestore</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-toggle-btn" id="mobileMenuBtn" aria-label="Abrir menu">
+            <i class="ph ph-bold ph-list"></i>
+          </button>
+          <div class="view-breadcrumb">
+            <span class="breadcrumb-app">OmniHub</span>
+            <i class="ph ph-bold ph-caret-right"></i>
+            <span class="breadcrumb-current" id="currentViewTitle">Dashboard</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="date-badge" id="headerDateBadge">
+            <i class="ph ph-bold ph-calendar-blank"></i>
+            <span id="currentDateText">Carregando data...</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-area">
+        <!-- Dashboard -->
+        <section class="view-panel active" id="view-dashboard">
+          <div class="panel-header">
+            <div class="header-titles">
+              <span class="eyebrow">Visão Geral &amp; Produtividade</span>
+              <h2 class="panel-title">Meu Dia a Dia</h2>
+            </div>
+            <div class="header-actions">
+              <div class="quote-pill">
+                <i class="ph ph-bold ph-sparkle"></i>
+                <span id="motivationalQuote">"A quietude na mente gera precisão na ação."</span>
+              </div>
+            </div>
+          </div>
+          <div class="quick-actions-bar">
+            <h3 class="section-subtitle">Atalhos de Ação Rápida</h3>
+            <div class="quick-action-cards">
+              <button class="quick-card" data-open-modal="task">
+                <div class="quick-card-icon icon-tasks"><i class="ph ph-bold ph-check-square-offset"></i></div>
+                <div class="quick-card-content">
+                  <span class="quick-card-title">+ Nova Tarefa</span>
+                  <span class="quick-card-desc">Planeje sua rotina diária ou semanal</span>
+                </div>
+              </button>
+              <button class="quick-card" data-open-modal="shopping">
+                <div class="quick-card-icon icon-shopping"><i class="ph ph-bold ph-shopping-cart"></i></div>
+                <div class="quick-card-content">
+                  <span class="quick-card-title">+ Item de Compra</span>
+                  <span class="quick-card-desc">Adicione produtos e calcule gastos</span>
+                </div>
+              </button>
+              <button class="quick-card" data-open-modal="wishlist">
+                <div class="quick-card-icon icon-wishlist"><i class="ph ph-bold ph-heart"></i></div>
+                <div class="quick-card-content">
+                  <span class="quick-card-title">+ Lista de Desejos</span>
+                  <span class="quick-card-desc">Sonhos e compras planejadas</span>
+                </div>
+              </button>
+              <button class="quick-card" data-open-modal="reminder">
+                <div class="quick-card-icon icon-reminders"><i class="ph ph-bold ph-alarm"></i></div>
+                <div class="quick-card-content">
+                  <span class="quick-card-title">+ Lembrete / Alarme</span>
+                  <span class="quick-card-desc">Alertas e horários cruciais</span>
+                </div>
+              </button>
+            </div>
+          </div>
+          <div class="dashboard-stats-grid">
+            <div class="stat-pill-card">
+              <div class="stat-meta"><span class="stat-label">Tarefas Pendentes</span><span class="stat-value" id="dashTaskCount">0</span></div>
+              <div class="stat-progress-bar"><div class="progress-fill fill-green" id="dashTaskProgress" style="width:0%"></div></div>
+            </div>
+            <div class="stat-pill-card">
+              <div class="stat-meta"><span class="stat-label">Estimativa de Compras</span><span class="stat-value" id="dashShoppingTotal">R$ 0,00</span></div>
+              <div class="stat-sub" id="dashShoppingCount">0 itens pendentes</div>
+            </div>
+            <div class="stat-pill-card">
+              <div class="stat-meta"><span class="stat-label">Lembretes Ativos</span><span class="stat-value" id="dashRemindersCount">0</span></div>
+              <div class="stat-sub">Sincronizados com alarme sonoro</div>
+            </div>
+          </div>
+          <div class="summary-widgets-grid">
+            <div class="card widget-card">
+              <div class="widget-header">
+                <div class="widget-title-wrap"><i class="ph ph-bold ph-list-checks text-accent-tasks"></i><h3>Tarefas Recentes</h3></div>
+                <button class="text-btn" data-view-target="tasks">Ver todas</button>
+              </div>
+              <div class="widget-body" id="widgetRecentTasks"></div>
+            </div>
+            <div class="card widget-card">
+              <div class="widget-header">
+                <div class="widget-title-wrap"><i class="ph ph-bold ph-basket text-accent-shopping"></i><h3>Próximas Compras</h3></div>
+                <button class="text-btn" data-view-target="shopping">Ver lista</button>
+              </div>
+              <div class="widget-body" id="widgetRecentShopping"></div>
+            </div>
+            <div class="card widget-card">
+              <div class="widget-header">
+                <div class="widget-title-wrap"><i class="ph ph-bold ph-clock-countdown text-accent-reminders"></i><h3>Lembretes Próximos</h3></div>
+                <button class="text-btn" data-view-target="reminders">Ver todos</button>
+              </div>
+              <div class="widget-body" id="widgetRecentReminders"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tarefas -->
+        <section class="view-panel" id="view-tasks">
+          <div class="panel-header">
+            <div class="header-titles"><span class="eyebrow">Produtividade Pessoal</span><h2 class="panel-title">Gerenciador de Tarefas</h2></div>
+            <div class="filter-track">
+              <button class="filter-pill active" data-task-filter="all">Todas</button>
+              <button class="filter-pill" data-task-filter="pending">Pendentes</button>
+              <button class="filter-pill" data-task-filter="completed">Concluídas</button>
+            </div>
+          </div>
+          <div class="card form-card">
+            <form id="formTask" class="inline-form">
+              <div class="form-group flex-2">
+                <label for="taskTitleInput">Descrição da Tarefa</label>
+                <div class="input-with-icon"><i class="ph ph-bold ph-pencil-simple"></i><input type="text" id="taskTitleInput" placeholder="Ex: Finalizar revisão de projeto trimestral..." required /></div>
+              </div>
+              <div class="form-group flex-1">
+                <label for="taskFrequencySelect">Frequência / Rotina</label>
+                <div class="input-with-icon"><i class="ph ph-bold ph-arrows-clockwise"></i>
+                  <select id="taskFrequencySelect"><option value="diária">Diária</option><option value="semanal">Semanal</option><option value="mensal">Mensal</option><option value="única">Única vez</option></select>
+                </div>
+              </div>
+              <div class="form-group btn-group"><button type="submit" class="btn btn-primary"><i class="ph ph-bold ph-plus-circle"></i><span>Adicionar Tarefa</span></button></div>
+            </form>
+          </div>
+          <div class="list-section">
+            <div class="list-header-meta"><span class="list-count-label" id="taskCountLabel">0 tarefas listadas</span></div>
+            <div class="interactive-list" id="taskListContainer"></div>
+          </div>
+        </section>
+
+        <!-- Compras -->
+        <section class="view-panel" id="view-shopping">
+          <div class="panel-header">
+            <div class="header-titles"><span class="eyebrow">Planejamento Financeiro</span><h2 class="panel-title">Lista de Compras</h2></div>
+            <div class="budget-total-pill"><span class="budget-label">Total Estimado:</span><span class="budget-value" id="shoppingGrandTotal">R$ 0,00</span></div>
+          </div>
+          <div class="card form-card">
+            <form id="formShopping" class="inline-form">
+              <div class="form-group flex-2">
+                <label for="shoppingItemInput">Nome do Item</label>
+                <div class="input-with-icon"><i class="ph ph-bold ph-package"></i><input type="text" id="shoppingItemInput" placeholder="Ex: Café em Grãos Gourmet" required /></div>
+              </div>
+              <div class="form-group flex-1">
+                <label for="shoppingQtyInput">Quantidade</label>
+                <div class="input-with-icon"><i class="ph ph-bold ph-hash"></i><input type="number" id="shoppingQtyInput" min="1" value="1" required /></div>
+              </div>
+              <div class="form-group flex-1">
+                <label for="shoppingPriceInput">Preço Estimado (R$)</label>
+                <div class="input-with-icon"><i class="ph ph-bold ph-currency-circle-dollar"></i><input type="number" id="shoppingPriceInput" step="0.01" min="0" placeholder="0,00" required /></div>
+              </div>
+              <div class="form-group btn-group"><button type="submit" class="btn btn-primary"><i class="ph ph-bold ph-plus-circle"></i><span>Adicionar Item</span></button></div>
+            </form>
+          </div>
+          <div class="list-section">
+            <div class="list-header-meta"><span class="list-count-label" id="shoppingCountLabel">0 itens</span><span class="list-sub-meta" id="shoppingBoughtLabel">0 comprados</span></div>
+            <div class="interactive-list" id="shoppingListContainer"></div>
+          </div>
+        </section>
+
+        <!-- Desejos -->
+        <section class="view-panel" id="view-wishlist">
+          <div class="panel-header">
+            <div class="header-titles"><span class="eyebrow">Objetivos &amp; Aquisições Futuras</span><h2 class="panel-title">Lista de Desejos</h2></div>
+            <div class="filter-track">
+              <button class="filter-pill active" data-wish-filter="all">Todos</button>
+              <button class="filter-pill" data-wish-filter="Alta">Alta</button>
+              <button class="filter-pill" data-wish-filter="Média">Média</button>
+              <button class="filter-pill" data-wish-filter="Baixa">Baixa</button>
+            </div>
+          </div>
+          <div class="card form-card">
+            <form id="formWishlist" class="inline-form">
+              <div class="form-group flex-2">
+                <label for="wishTitleInput">Nome do Desejo / Item</label>
+                <div class="input-with-icon"><i class="ph ph-bold ph-sparkle"></i><input type="text" id="wishTitleInput" placeholder="Ex: Monitor Ultrawide 34 ou Curso de Arquitetura" required /></div>
+              </div>
+              <div class="form-group flex-1">
+                <label for="wishPrioritySelect">Prioridade</label>
+                <div class="input-with-icon"><i class="ph ph-bold ph-flag"></i>
+                  <select id="wishPrioritySelect"><option value="Alta">Alta Prioridade</option><option value="Média" selected>Média Prioridade</option><option value="Baixa">Baixa Prioridade</option></select>
+                </div>
+              </div>
+              <div class="form-group btn-group"><button type="submit" class="btn btn-primary"><i class="ph ph-bold ph-plus-circle"></i><span>Salvar Desejo</span></button></div>
+            </form>
+          </div>
+          <div class="list-section">
+            <div class="list-header-meta"><span class="list-count-label" id="wishlistCountLabel">0 desejos cadastrados</span></div>
+            <div class="wishlist-cards-grid" id="wishlistContainer"></div>
+          </div>
+        </section>
+
+        <!-- Lembretes -->
+        <section class="view-panel" id="view-reminders">
+          <div class="panel-header">
+            <div class="header-titles"><span class="eyebrow">Alertas Temporais &amp; Agenda</span><h2 class="panel-title">Lembretes &amp; Alarmes</h2></div>
+            <div class="alarm-permission-btn-wrapper">
+              <button class="btn btn-secondary btn-sm" id="btnTestSound"><i class="ph ph-bold ph-speaker-high"></i><span>Testar Som do Alarme</span></button>
+            </div>
+          </div>
+          <div class="card form-card">
+            <form id="formReminder" class="inline-form">
+              <div class="form-group flex-2">
+                <label for="reminderTextInput">Descrição do Lembrete</label>
+                <div class="input-with-icon"><i class="ph ph-bold ph-chat-centered-text"></i><input type="text" id="reminderTextInput" placeholder="Ex: Tomar medicação ou Reunião com cliente..." required /></div>
+              </div>
+              <div class="form-group flex-1">
+                <label for="reminderDateTimeInput">Data e Hora do Alarme</label>
+                <div class="input-with-icon"><i class="ph ph-bold ph-calendar-check"></i><input type="datetime-local" id="reminderDateTimeInput" required /></div>
+              </div>
+              <div class="form-group btn-group"><button type="submit" class="btn btn-primary"><i class="ph ph-bold ph-plus-circle"></i><span>Criar Alarme</span></button></div>
+            </form>
+          </div>
+          <div class="list-section">
+            <div class="list-header-meta"><span class="list-count-label" id="remindersCountLabel">0 lembretes ativos</span></div>
+            <div class="interactive-list" id="remindersListContainer"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal Alarme -->
+  <div class="modal-backdrop" id="alarmModal">
+    <div class="modal-card alarm-modal-card">
+      <div class="alarm-icon-pulse"><i class="ph ph-fill ph-bell-ringing"></i></div>
+      <span class="alarm-badge">Alarme Ativo!</span>
+      <h3 class="alarm-title" id="alarmModalTitle">Lembrete Programado</h3>
+      <p class="alarm-time" id="alarmModalTime">Agora</p>
+      <div class="alarm-actions">
+        <button class="btn btn-primary" id="btnDismissAlarm"><i class="ph ph-bold ph-check"></i><span>Entendido / Desativar</span></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Firebase SDK v10 (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
+
